@@ -3,20 +3,21 @@ services:
   db:
     container_name: db
     image: mariadb:10.2
-    restart: on-failure
+    restart: always
     expose:
       - "3306"
     volumes:
       - "./db:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: QWErty123
-      MYSQL_DATABASE: devprom
-      MYSQL_USER: devprom
-      MYSQL_PASSWORD: QWErty123
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
 
   alm:
     container_name: alm
     image: devprom/alm
+    restart: always
     ports:
       - "8080:80"
     expose:
@@ -30,8 +31,5 @@ services:
     depends_on:
       - db
     environment:
-      MYSQL_ROOT_PASSWORD: QWErty123
-      MYSQL_DATABASE: devprom
-      MYSQL_USER: devprom
-      MYSQL_PASSWORD: QWErty123
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
 
