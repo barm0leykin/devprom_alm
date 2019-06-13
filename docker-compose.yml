@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    image: mariadb:10.2
+    restart: on-failure
+    expose:
+      - "3306"
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: QWErty123
+      MYSQL_DATABASE: devprom
+      MYSQL_USER: devprom
+      MYSQL_PASSWORD: QWErty123
+
+  alm:
+    container_name: alm
+    image: devprom/alm
+    ports:
+      - "8080:80"
+    expose:
+      - "3306"
+    volumes:
+      - "./backup:/var/www/devprom/backup"
+      - "/etc/localtime:/etc/localtime:ro"
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    depends_on:
+      - db
+    environment:
+      MYSQL_ROOT_PASSWORD: QWErty123
+      MYSQL_DATABASE: devprom
+      MYSQL_USER: devprom
+      MYSQL_PASSWORD: QWErty123
+
